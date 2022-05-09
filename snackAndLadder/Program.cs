@@ -10,13 +10,14 @@ namespace snakeLadder
         public const int snake = 2;
         static void Main(string[] args)
         {
-            int playerPosition = 0, rollDice, playerOption, listIndex;
+            int playerPosition = 0, numberOfDiceRolls = 0, rollDice, playerOption, listIndex;
             Random random = new Random();
             string[] choiceArray = { "noPlay", "ladder", "Snake" };
             while (playerPosition < 100)
             {
                 //Dice rolling logic
                 rollDice = random.Next(1, 7);
+                numberOfDiceRolls++;
                 Console.WriteLine("Number appered on dice is : {0} ", rollDice);
 
                 //Player option Generation "Array" Logic-1
@@ -65,6 +66,7 @@ namespace snakeLadder
                 Console.WriteLine("Player position is : {0}", playerPosition);
             }
             Console.WriteLine("Last player position is: {0}", playerPosition);
+            Console.WriteLine("Total number of dice Rolls played to win the game are : {0}", numberOfDiceRolls);
         }
     }
 }
