@@ -42,7 +42,14 @@ namespace snakeLadder
                 //Action according to player option
                 if (choiceArray[listIndex] == "ladder")
                 {
-                    playerPosition += rollDice;
+                    if ((playerPosition + rollDice) > 100)
+                    {
+                        playerPosition = noPlay;
+                    }
+                    else
+                    {
+                        playerPosition += rollDice;
+                    }
                 }
                 else if (choiceArray[listIndex] == "snake")
                 {
