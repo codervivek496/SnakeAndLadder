@@ -4,69 +4,94 @@ namespace snakeLadder
 {
     class program
     {
-        //**Declaring constant for Logic-2**
-        public const int noPlay = 0;
-        public const int ladder = 1;
-        public const int snake = 2;
         static void Main(string[] args)
         {
-            int playerPosition = 0, numberOfDiceRolls = 0, rollDice, playerOption, listIndex;
+            //To Assign the Winnig Player
+            int win = 0;
+
+            //Two players
+            int[] player = { 0, 0 };
+            
+            //Dice count for each one
+            int [] playerDice = { 0, 0 };
+
+            int rollDice, arrayIndex;
             Random random = new Random();
             string[] choiceArray = { "noPlay", "ladder", "Snake" };
-            while (playerPosition < 100)
+            int turn = 0;
+            while (player[0] < 100 && player[1] < 100)
             {
+                Console.WriteLine("\nPlayer {0} is playing", (turn + 1));
+                Console.WriteLine("player {0} position is: {1}", (turn + 1), player[turn]);
+
                 //Dice rolling logic
                 rollDice = random.Next(1, 7);
-                numberOfDiceRolls++;
+                playerDice[turn]++;
+                Console.WriteLine("Player {0}  dice rolls are: {1}", (turn + 1), playerDice[turn]);
                 Console.WriteLine("Number appered on dice is : {0} ", rollDice);
 
                 //Player option Generation "Array" Logic-1
-                listIndex = random.Next(choiceArray.Length);
-                Console.WriteLine("Player option is: {0}", choiceArray[listIndex]);
+                arrayIndex = random.Next(choiceArray.Length);
+                Console.WriteLine("Player option is: {0}", choiceArray[arrayIndex]);
 
-
-                //*******Player options generating "Random" logic-2********
-                /*playerOption = random.Next(1, 3);
-                switch (playerOption)
+                //Action According to player option
+                if (choiceArray[arrayIndex] == "noPlay" && turn == 0)
                 {
-                    case noPlay:
-                        Console.WriteLine("Player option is : No Play");
-                        break;
-                    case ladder:
-                        Console.WriteLine("Player option is : Ladder");
-                        break;
-                    case snake:
-                        Console.WriteLine("Player Option is : snake");
-                        break ;      
-                }*/
-
-                //Action according to player option
-                if (choiceArray[listIndex] == "ladder")
+                    turn = 1;
+                    continue;
+                }
+                else if (choiceArray[arrayIndex] == "noPlay" && turn == 1)
                 {
-                    if ((playerPosition + rollDice) > 100)
+                    turn = 0;
+                    continue;
+                }
+                if (choiceArray[arrayIndex] == "ladder")
+                {
+                    //If player position goes beyond 100
+                    if ((player[turn] + rollDice) >= 100)
                     {
-                        playerPosition = noPlay;
+                        player[turn] = 100;
+                        win = turn;
+                        break;
                     }
                     else
                     {
-                        playerPosition += rollDice;
+                        player[turn] += rollDice;
+                        continue;
                     }
                 }
-                else if (choiceArray[listIndex] == "snake")
+                else if (choiceArray[arrayIndex] == "snake")
                 {
-                    if (playerPosition < rollDice)
+                    //If player position is less than the number appeared on dice
+                    if (player[turn] < rollDice)
                     {
-                        playerPosition = 0;
+                        player[turn] = 0;
                     }
                     else
                     {
-                        playerPosition -= rollDice;
+                        player[turn] -= rollDice;
                     }
                 }
-                Console.WriteLine("Player position is : {0}", playerPosition);
+
+                //If any player reaches to 100
+                if (player[0] == 100 || player[1] == 100)
+                {
+                    win = turn;
+                    break;
+                }
+
+                //Changing turns
+                if (turn == 0)
+                {
+                    turn = 1;
+                }
+                else
+                {
+                    turn = 0;
+                }
             }
-            Console.WriteLine("Last player position is: {0}", playerPosition);
-            Console.WriteLine("Total number of dice Rolls played to win the game are : {0}", numberOfDiceRolls);
+            Console.WriteLine("Winner Player is : Player {0}",  (win + 1));
+            Console.WriteLine("Player position is : {0}",  player[win]);
         }
     }
 }
